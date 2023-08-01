@@ -31,6 +31,7 @@ Realiza conversiones de masa entre diferentes unidades, como gramos, kilogramos 
 
 - Java JDK 8 o superior.
 - IDE de desarrollo compatible con Java (como Eclipse, IntelliJ, NetBeans, etc.).
+<br>_(Para el desarrollo de este programa se utilizó el IDE Eclipse)_
 
 ## Capturas de Pantalla
 
