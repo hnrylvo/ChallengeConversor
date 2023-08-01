@@ -14,10 +14,16 @@ public class ConvertirDolaresFN {
 			"De Libra esterlina a Dólar", "De Yen japonés a Dólar", "De Won surcoreano a Dólar" };
 
 	public void ConvertirMoneda(double dinero) {
-		String seleccion = JOptionPane.showInputDialog(null, "Elija la moneda a la que deseas convertir tu dinero: ",
-				"Conversor de moneda", JOptionPane.PLAIN_MESSAGE, null, opciones, "Seleccion").toString();
-
-		switch (seleccion) {
+		Object seleccion = JOptionPane.showInputDialog(null, "Elija la moneda a la que deseas convertir tu dinero: ",
+				"Conversor de moneda", JOptionPane.PLAIN_MESSAGE, null, opciones, "Seleccion");
+		
+		if(seleccion == null) {
+			JOptionPane.showMessageDialog(null, "Saliendo del programa...");
+			return;
+		}
+		
+		String opcionSeleccionada = seleccion.toString();
+		switch (opcionSeleccionada) {
 		case "De Dólar a Colón salvadoreño":
 			ConvDolares.ConvertirDolareAColonesSVC(dinero);
 			break;

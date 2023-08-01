@@ -3,7 +3,6 @@ package Principal;
 import javax.swing.JOptionPane;
 import Funciones.*;
 
-
 public class Menu_Principal {
 
 	public static void main(String[] args) {
@@ -15,78 +14,86 @@ public class Menu_Principal {
 		Object[] opciones = { "Conversor de moneda", "Conversor de temperatura", "Conversor de masa" };
 
 		do {
-			String seleccion = JOptionPane.showInputDialog(null, "Seleccione una opcion:", "Menu",
-					JOptionPane.QUESTION_MESSAGE, null, opciones, "Seleccion").toString();
+			Object seleccion = JOptionPane.showInputDialog(null, "Seleccione una opcion:", "Menu",
+					JOptionPane.QUESTION_MESSAGE, null, opciones, "Seleccion");
 
-			switch (seleccion) {
+			if (seleccion == null) {
+				JOptionPane.showMessageDialog(null, "Saliendo del programa...");
+				return;
+			}
+			String opcionSeleccionada = seleccion.toString();
+			switch (opcionSeleccionada) {
 			case "Conversor de moneda":
-				String dinero = JOptionPane.showInputDialog("Ingrese el dinero a convertir: ");
-
-				if (esMontoValido(dinero) == true && esNumero(dinero) == true) {
+				String  dinero = obtenerValor("Ingrese el dinero a convertir: ");
+				
+				if (dinero != null && esNumeroValido(dinero, true)) {
 					double monto = Double.parseDouble(dinero);
 					moneda.ConvertirMoneda(monto);
-				} else {
-					JOptionPane.showMessageDialog(null,
-							"Valor inválido. No puede ingresar valores negativos o letras.");
-				}
-
+				} 
 				break;
 
 			case "Conversor de temperatura":
-				String temp = JOptionPane.showInputDialog("Ingrese temperatura a convertir: ");
-
-				if (esNumero(temp) == true) {
+				String temp = obtenerValor("Ingrese temperatura a convertir: ");
+				
+				if (temp != null && esNumeroValido(temp, false)) {
 					double monto = Double.parseDouble(temp);
 					temperatura.ConvertirTemperatura(monto);
-				} else {
-					JOptionPane.showMessageDialog(null, "Valor inválido. Ingrese solo valores numericos. ");
 				}
-
 				break;
 
 			case "Conversor de masa":
-				String cantidad = JOptionPane.showInputDialog("Ingrese la masa  convertir: ");
-
-				if (esMontoValido(cantidad) && esNumero(cantidad)) {
+				String cantidad = obtenerValor("Ingrese la masa  convertir: ");
+				
+				if (cantidad != null && esNumeroValido(cantidad, true)) {
 					Double monto = Double.parseDouble(cantidad);
 					masa.ConvertirMasa(monto);
-				} else {
-					JOptionPane.showMessageDialog(null,
-							"Valor inválido. No puede ingresar valores negativos o letras.");
 				}
-
 				break;
+				
 			default:
 				JOptionPane.showMessageDialog(null, "Opcion no válida, saliendo del programa.");
 				break;
 			}
-
-			int respuesta = JOptionPane.showConfirmDialog(null, "¿Desea continuar?", "Continuar",
+			int respuesta = JOptionPane.showConfirmDialog(null, "¿Desea continuar haciendo conversiones?", "Continuar",
 					JOptionPane.YES_NO_OPTION);
-			continuar = (respuesta == JOptionPane.YES_OPTION);	
+			continuar = (respuesta == JOptionPane.YES_OPTION);
 
 		} while (continuar);
-		
-		JOptionPane.showMessageDialog(null, "Gracias por usar nuestro conversor. :)");		
+
+		JOptionPane.showMessageDialog(null, "Gracias por usar nuestro conversor. :)");
 	}
 
-	public static boolean esMontoValido(String monto) {
-		try {
-			double cant = Double.parseDouble(monto);
-			return cant > 0;
-		} catch (NumberFormatException e) {
-			return false;
-		}
-	}
-
-	public static boolean esNumero(String temp) {
-		try {
-			Double.parseDouble(temp);
-			return true;
-		} catch (NumberFormatException e) {
-			return false;
-		}
-
+	public static String obtenerValor(String mensaje) {
+        String valor = JOptionPane.showInputDialog(mensaje);
+        if (valor == null) {
+            JOptionPane.showMessageDialog(null, "Saliendo del programa...");
+            return null;
+        }
+        return valor.trim(); //.trim() elimina los espacios que el usuario pueda ingresar tanto antes o despues.
+    }
+	
+	public static boolean esNumeroValido(String valor, boolean mayorACero) {
+	    try {
+	        double cant = Double.parseDouble(valor);
+	        if (mayorACero) {
+	            if (cant > 0) {
+	                return true;
+	            } else {
+	                JOptionPane.showMessageDialog(null, "Valor inválido. Ingrese solo valores numéricos positivos.");
+	                return false;
+	            }
+	        } else {
+	            if (cant >= 0 || cant < 0) {
+	                return true;
+	            } else {
+	                JOptionPane.showMessageDialog(null, "Valor inválido. Ingrese solo valores numéricos.");
+	                return false;
+	            }
+	        }
+	    } catch (NumberFormatException e) {
+	        JOptionPane.showMessageDialog(null, "Valor inválido. Ingrese solo valores numéricos.");
+	        return false;
+	    }
 	}
 
 }

@@ -11,10 +11,16 @@ public class ConversorTemperaturaFN {
 			"Fahrenheit a Kelvin", "Kelvin a Celcius", "Kelvin a Farenheit" };
 
 	public void ConvertirTemperatura(double temp) {
-		String seleccion = JOptionPane.showInputDialog(null, "Elija la conversión de temperatura: ",
-				"Conversor de temperatura", JOptionPane.PLAIN_MESSAGE, null, opciones, "Seleccion").toString();
+		Object seleccion = JOptionPane.showInputDialog(null, "Elija la moneda a la que deseas convertir tu dinero: ",
+				"Conversor de moneda", JOptionPane.PLAIN_MESSAGE, null, opciones, "Seleccion");
 		
-		switch (seleccion) {
+		if(seleccion == null) {
+			JOptionPane.showMessageDialog(null, "Saliendo del programa...");
+			return;
+		}
+		
+		String opcionSeleccionada = seleccion.toString();
+		switch (opcionSeleccionada) {
 		case "Celcius a Fahrenheit":
 			temperatura.ConvertirCelciusAFahrenheit(temp);
 			break;
